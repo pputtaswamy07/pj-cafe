@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order - PJ's Café</title>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+
+<body>
+    <h1>Order</h1>
+    <nav>
+        <a href="/">Home</a>
+        <a href="/menu">Menu</a>
+        <a href="/reservation">Reservation</a>
+        <a href="/reviews">Reviews</a>
+    </nav>
+    <form action="/orders" method="post">
+        <div>
+            <label for="item">Item:</label>
+            <input type="text" name="item" id="item" required>
+        </div>
+        <div>
+            <label for="quantity">Quantity:</label>
+            <input type="number" name="quantity" id="quantity" required>
+        </div>
+        <button type="submit">Place Order</button>
+    </form>
+</body>
+
+</html>
