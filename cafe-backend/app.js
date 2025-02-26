@@ -3,12 +3,12 @@ const mongoose = require("mongoose");
 const session = require("express-session");
 const passport = require("passport");
 const bodyParser = require("body-parser");
+const cors = require("cors");
 const path = require("path");
 const dotenv = require("dotenv");
-
 require("dotenv").config();
-const source = process.env.MONGO_URI;
 
+const source = process.env.MONGO_URI;
 const app = express();
 
 // Connect to MongoDB
@@ -18,9 +18,10 @@ mongoose.connect(source, {
 });
 
 // Middleware
+app.use(cors()); // Add CORS support
+app.use(bodyParser.json()); // Add JSON support
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, "public")));
-app.set("view engine", "ejs");
 
 // Express session
 app.use(
@@ -37,10 +38,7 @@ app.use(passport.session());
 
 // Routes
 app.use("/", require("./routes/index"));
-app.use("/reservations", require("./routes/reservations"));
-app.use("/orders", require("./routes/orders"));
-app.use("/reviews", require("./routes/reviews"));
+app.use("/api/menu", require("./routes/menu")); // Add menu routes
 
-const PORT = process.env.PORT || 3000;
-
+const PORT = process.env.PORT || 5000;
 app.listen(PORT, console.log(`Server started on port ${PORT}`));
