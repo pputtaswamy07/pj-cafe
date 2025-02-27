@@ -1,5 +1,5 @@
 export interface MenuItem {
-  imageUrl?: string;
+  imageUrl: string;
   _id: string;
   name: string;
   description: string;

@@ -5,11 +5,14 @@ import {
   CircularProgress,
   Box,
   Tabs,
-  Tab,
+  Tab /* 
   TextField,
-  InputAdornment,
-} from "@mui/material";
-import SearchIcon from "@mui/icons-material/Search";
+  InputAdornment, */,
+  Card,
+  CardContent,
+  Divider,
+} from "@mui/material"; /* 
+import SearchIcon from "@mui/icons-material/Search"; */
 import MenuItem from "./MenuItem";
 import { useMenu } from "../../contexts/MenuContext";
 
@@ -21,9 +24,9 @@ interface MenuItem {
 
 const MenuList: React.FC = () => {
   const { menuItems, loading, error } = useMenu();
-  const [category, setCategory] = useState("all");
+  const [category, setCategory] = useState("special"); /* 
   const [searchQuery, setSearchQuery] = useState("");
-
+ */
   const handleCategoryChange = (
     event: React.SyntheticEvent,
     newValue: string
@@ -31,17 +34,18 @@ const MenuList: React.FC = () => {
     setCategory(newValue);
   };
 
-  const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  /*  const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchQuery(event.target.value);
-  };
+  }; */
 
   // Filter by category and search query
   const filteredItems = menuItems.filter((item: MenuItem) => {
     const matchesCategory = category === "all" || item.category === category;
-    const matchesSearch =
+    /* const matchesSearch =
       item.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
       item.description.toLowerCase().includes(searchQuery.toLowerCase());
-    return matchesCategory && matchesSearch;
+    return matchesCategory && matchesSearch; */
+    return matchesCategory;
   });
 
   if (loading) {
@@ -93,7 +97,7 @@ const MenuList: React.FC = () => {
         Our Menu
       </Typography>
 
-      <Box sx={{ width: "80%", maxWidth: "600px", mb: 3 }}>
+      {/*  <Box sx={{ width: "80%", maxWidth: "600px", mb: 3 }}>
         <TextField
           fullWidth
           placeholder="Search our menu..."
@@ -107,13 +111,13 @@ const MenuList: React.FC = () => {
             ),
           }}
         />
-      </Box>
+      </Box> */}
 
       <Box
         sx={{ width: "100%", borderBottom: 1, borderColor: "divider", mb: 4 }}
       >
         <Tabs value={category} onChange={handleCategoryChange} centered>
-          <Tab label="All" value="all" />
+          <Tab label="Today's Special" value="special" />
           <Tab label="Appetizers" value="appetizer" />
           <Tab label="Main Course" value="main" />
           <Tab label="Desserts" value="dessert" />
@@ -122,14 +126,30 @@ const MenuList: React.FC = () => {
       </Box>
 
       {filteredItems.length === 0 ? (
-        <Box textAlign="center" py={4}>
-          <Typography variant="h6">No menu items found</Typography>
-        </Box>
+        <Typography align="center" variant="h6">
+          No items found. Try a different search or category.
+        </Typography>
       ) : (
-        <Grid container spacing={4} sx={{ width: "90%" }}>
+        <Grid container spacing={1}>
           {filteredItems.map((item) => (
-            <Grid item key={item._id} xs={12} sm={6} md={4}>
-              <MenuItem item={item} />
+            <Grid item xs={12} key={item._id}>
+              <Card
+                elevation={1}
+                sx={{ width: "80%", margin: "auto", padding: 1 }}
+              >
+                <CardContent>
+                  <Typography variant="h6" component="h2">
+                    {item.name}
+                  </Typography>
+                  <Typography color="textSecondary" gutterBottom>
+                    ${item.price.toFixed(2)}
+                  </Typography>
+                  <Divider sx={{ my: 1 }} />
+                  <Typography variant="body2" color="textSecondary">
+                    {item.description}
+                  </Typography>
+                </CardContent>
+              </Card>
             </Grid>
           ))}
         </Grid>
